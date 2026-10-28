@@ -137,7 +137,7 @@ async def get_model_info(
 
   if should_fetch_civitai:
     data_civitai = _get_model_civitai_data(
-      file, model_type, default={}, refresh=force_fetch_civitai
+      file, model_type, default={}, refresh=force_fetch_civitai, file_hash=info_data.get('sha256')
     )
     should_save = _merge_civitai_data(info_data, data_civitai) or should_save
 
@@ -324,9 +324,9 @@ def _merge_civitai_data(info_data: dict, data_civitai: dict) -> bool:
   return should_save
 
 
-def _get_model_civitai_data(file: str, model_type, default=None, refresh=False):
+def _get_model_civitai_data(file: str, model_type, default=None, refresh=False, file_hash=None):
   """Gets the civitai data, either cached from the user directory, or from civitai api."""
-  file_hash = _get_sha256_hash(get_folder_path(file, model_type))
+  file_hash = file_hash or _get_sha256_hash(get_folder_path(file, model_type))
   if file_hash is None:
     return None
 

@@ -15,7 +15,7 @@ routes = PromptServer.instance.routes
 
 def _check_valid_model_type(request):
   model_type = request.match_info['type']
-  if model_type not in ['loras', 'checkpoints']:
+  if model_type not in ['loras', 'checkpoints', 'embeddings']:
     return web.json_response({'status': 404, 'error': f'Invalid model type: {model_type}'})
   return None
 
